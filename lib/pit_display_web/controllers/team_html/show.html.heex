@@ -1,0 +1,119 @@
+<%= if @team do %>
+  <div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Team {@team.team_number}: {@team.team_name}</h1>
+
+    <div class="bg-white shadow-lg rounded-lg p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h2 class="text-xl font-semibold mb-4 text-gray-800">Team Information</h2>
+          <dl class="space-y-3">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Team Number</dt>
+              <dd class="text-lg text-gray-900">{@team.team_number}</dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Team Name</dt>
+              <dd class="text-lg text-gray-900">{@team.team_name}</dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Location</dt>
+              <dd class="text-lg text-gray-900">
+                {@team.city || "N/A"}{if @team.state_prov, do: ", #{@team.state_prov}"}{if @team.country,
+                  do: ", #{@team.country}"}
+              </dd>
+            </div>
+            <%= if @team.rookie_year do %>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Rookie Year</dt>
+                <dd class="text-lg text-gray-900">{@team.rookie_year}</dd>
+              </div>
+            <% end %>
+            <%= if @team_website do %>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Website</dt>
+                <dd class="text-lg text-gray-900">
+                  <a
+                    href={@team_website}
+                    target="_blank"
+                    class="text-blue-600 hover:text-blue-800 underline"
+                  >
+                    {@team.website}
+                  </a>
+                </dd>
+              </div>
+            <% end %>
+          </dl>
+        </div>
+
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h3 class="text-lg font-semibold mb-3 text-gray-800">Quick Stats</h3>
+          <div class="space-y-2 text-sm text-gray-600">
+            <p>Team Number: {@team.team_number}</p>
+            <p>Location: {@team.city || "N/A"}</p>
+            <p>State/Providence: {@team.state_prov || "N/A"}</p>
+            <p>Country: {@team.country || "N/A"}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <a
+          href={~p"/stats/teams"}
+          class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+        >
+          ← Back to All Teams
+        </a>
+      </div>
+    </div>
+    <div class="rounded-lg pt-12">
+      <table class="border-collapse table-auto border border-gray-400 w-full">
+        <thead>
+          <tr>
+            <th class="border border-gray-300 p-2 bg-gray-100 text-balance">Event Name</th>
+            <th class="border border-gray-300 p-2 bg-gray-100 text-balance">Type</th>
+            <th class="border border-gray-300 p-2 bg-gray-100 text-balance">City</th>
+            <th class="border border-gray-300 p-2 bg-gray-100 text-balance">State/Province</th>
+            <th class="border border-gray-300 p-2 bg-gray-100 text-balance">Country</th>
+            <th class="border border-gray-300 p-2 bg-gray-100 text-balance">Start Date</th>
+            <th class="border border-gray-300 p-2 bg-gray-100 text-balance">End Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for event <- @events do %>
+            <tr class="hover:bg-gray-50">
+              <td class="border border-gray-300 p-2 text-balance">{event.name}</td>
+              <td class="border border-gray-300 p-2 text-balance">{event.type_name}</td>
+              <td class="border border-gray-300 p-2 text-balance">{event.city || "N/A"}</td>
+              <td class="border border-gray-300 p-2 text-balance">{event.state_prov || "N/A"}</td>
+              <td class="border border-gray-300 p-2 text-balance">{event.country || "N/A"}</td>
+              <td class="border border-gray-300 p-2 text-balance">
+                {if event.date_start,
+                  do: event.date_start |> String.split("T") |> List.first() || "N/A",
+                  else: "N/A"}
+              </td>
+              <td class="border border-gray-300 p-2 text-balance">
+                {if event.date_end,
+                  do: event.date_end |> String.split("T") |> List.first() || "N/A",
+                  else: "N/A"}
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Team Not Found</h1>
+    <p class="text-gray-600 mb-4">The requested team could not be found.</p>
+    <a
+      href={~p"/stats/teams"}
+      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+    >
+      ← Back to All Teams
+    </a>
+  </div>
+<% end %>
+
+<p :if={@promo}>You have a promotional code!</p>
+<p class="mt-8">Selected Console: {@console}</p>

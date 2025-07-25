@@ -1,11 +1,14 @@
-<header class="px-4 sm:px-6 lg:px-8">
+<header class="bg-gray-50 px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
     <div class="flex items-center gap-4">
+      <button phx-click={JS.toggle(to: "#sidebar")}>
+        <.icon name="hero-bars-3-solid" class="w-4 h-4" />
+      </button>
       <a href="/">
         <img src={~p"/images/logo.svg"} width="36" />
       </a>
       <p class="bg-brand/5 text-brand rounded-full px-2 font-medium leading-6">
-        v{Application.spec(:phoenix, :vsn)}
+        v{Application.spec(:pit_display, :vsn)}
       </p>
     </div>
     <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
@@ -24,9 +27,46 @@
     </div>
   </div>
 </header>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash_group flash={@flash} />
-    {@inner_content}
+
+<div class="flex min-h-screen">
+  <aside
+    id="sidebar"
+    class="w-80 bg-gray-50 shadow-lg flex flex-col items-stretch z-40 sticky top-0 h-screen"
+  >
+    <nav class="flex flex-col gap-6 p-6">
+      <a
+        href={~p"/stats"}
+        class="block rounded-xl shadow bg-white hover:bg-blue-100 transition p-8 text-center border border-gray-200"
+      >
+        <span class="text-2xl font-semibold text-gray-800">Home</span>
+      </a>
+      <a
+        href={~p"/stats/teams"}
+        class="block rounded-xl shadow bg-white hover:bg-blue-100 transition p-8 text-center border border-gray-200"
+      >
+        <span class="text-2xl font-semibold text-gray-800">Teams</span>
+      </a>
+      <a
+        href={~p"/stats/events"}
+        class="block rounded-xl shadow bg-white hover:bg-blue-100 transition p-8 text-center border border-gray-200"
+      >
+        <span class="text-2xl font-semibold text-gray-800">Events</span>
+      </a>
+      <a
+        href={~p"/stats/records"}
+        class="block rounded-xl shadow bg-white hover:bg-blue-100 transition p-8 text-center border border-gray-200"
+      >
+        <span class="text-2xl font-semibold text-gray-800">Records</span>
+      </a>
+    </nav>
+  </aside>
+
+  <div class="flex-1 flex flex-col overflow-x-auto">
+    <main class="flex-1 px-4 py-20 sm:px-6 lg:px-8">
+      <div class="mx-auto w-full max-w-3xl">
+        <.flash_group flash={@flash} />
+        {@inner_content}
+      </div>
+    </main>
   </div>
-</main>
+</div>

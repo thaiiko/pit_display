@@ -89,6 +89,8 @@ defmodule PitDisplayWeb do
       import Phoenix.HTML
       # Core UI components
       import PitDisplayWeb.CoreComponents
+      # Custom table components
+      import PitDisplayWeb.TableComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

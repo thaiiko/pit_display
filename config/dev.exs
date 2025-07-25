@@ -16,11 +16,11 @@ config :pit_display, PitDisplay.Repo,
 config :pit_display, PitDisplayWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "7dEqvN7WNw4QdnX9YSwzoEgXgqGbNcNEogdgmigq9u9Jd50upCDFzaAV36nAxeJD",
+  secret_key_base: System.get_env("SECRET"),
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:pit_display, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:pit_display, ~w(--watch)]}
@@ -80,3 +80,7 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# FTC API Configuration for development
+# You can set FTC_API_KEY environment variable or use the default value below
+config :pit_display, :ftc_api_key, System.get_env("FTC_API_KEY")

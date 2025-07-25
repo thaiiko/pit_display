@@ -11,6 +11,7 @@ config :pit_display,
   ecto_repos: [PitDisplay.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+ftc_robotics_api_year = "2024"
 # Configures the endpoint
 config :pit_display, PitDisplayWeb.Endpoint,
   url: [host: "localhost"],
@@ -20,7 +21,9 @@ config :pit_display, PitDisplayWeb.Endpoint,
     layout: false
   ],
   pubsub_server: PitDisplay.PubSub,
-  live_view: [signing_salt: "gm7OheoF"]
+  live_view: [signing_salt: "gm7OheoF"],
+  ftc_api_year: ftc_robotics_api_year,
+  ftc_api_base_url: "https://ftc-api.firstinspires.org/v2.0/#{ftc_robotics_api_year}"
 
 # Configures the mailer
 #

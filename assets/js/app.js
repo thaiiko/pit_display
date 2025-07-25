@@ -25,7 +25,8 @@ import topbar from "../vendor/topbar"
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
-  params: {_csrf_token: csrfToken}
+  params: {_csrf_token: csrfToken},
+  hooks: Hooks,
 })
 
 // Show progress bar on live navigation and form submits
@@ -42,3 +43,32 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+let Hooks = {};
+
+Hooks.InfiniteScroll = {
+  mounted() {
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.pushEvent("load_more", {});
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      },
+    );
+
+    const anchorId = this.el.dataset.anchorId;
+    const anchor = document.getElementById(anchorId);
+
+    if (anchor) {
+      observer.observe(anchor);
+    } else {
+      console.error(`Anchor element not found: ${anchorId}`);
+    }
+  },
+};

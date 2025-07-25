@@ -49,5 +49,14 @@ defmodule PitDisplayWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug :check_promo_code
   plug PitDisplayWeb.Router
+
+  def check_promo_code(%Plug.Conn{:params => %{"promo" => "secret"}} = conn, _opts) do
+    assign(conn, :promo, true)
+  end
+
+  def check_promo_code(%Plug.Conn{} = conn, _opts) do
+    assign(conn, :promo, false)
+  end
 end

@@ -61,6 +61,16 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  # FTC API Configuration
+  ftc_api_key =
+    System.get_env("FTC_API_KEY") ||
+      raise """
+      environment variable FTC_API_KEY is missing.
+      This is required for accessing the FTC Robotics API.
+      """
+
+  config :pit_display, :ftc_api_key, ftc_api_key
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
