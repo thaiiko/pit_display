@@ -22,10 +22,8 @@ defmodule PitDisplayWeb.Router do
     pipe_through :browser
 
     get "/", PitDisplayWeb.PageController, :home
-    get "/teams/:id", PitDisplayWeb.TeamController, :show
 
     # LiveView routes
-    live "/teams", PitDisplayWeb.TeamLive.Index, :index
     get "/clips", PitDisplayWeb.ClipController, :home
 
     # this provides all the routes
@@ -44,11 +42,13 @@ defmodule PitDisplayWeb.Router do
   end
 
   scope "/pit" do
+    pipe_through :browser
     get "/", PitDisplayWeb.PitController, :home
     live "/:team_id/:event_id", PitDisplayWeb.PitLive.Dashboard, :dashboard
   end
 
   scope "/scout" do
+    pipe_through :browser
     get "/", PitDisplayWeb.ScoutController, :home
   end
 

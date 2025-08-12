@@ -21,13 +21,26 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import SaladUI from "./ui/index.js";
+import "./ui/components/dialog.js";
+import "./ui/components/select.js";
+import "./ui/components/tabs.js";
+import "./ui/components/radio_group.js";
+import "./ui/components/popover.js";
+import "./ui/components/hover-card.js";
+import "./ui/components/collapsible.js";
+import "./ui/components/tooltip.js";
+import "./ui/components/accordion.js";
+import "./ui/components/slider.js";
+import "./ui/components/switch.js";
+import "./ui/components/dropdown_menu.js";
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: Hooks,
-})
+  hooks: { SaladUI: SaladUI.SaladUIHook }
+});
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
@@ -43,32 +56,11 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
-let Hooks = {};
-
-Hooks.InfiniteScroll = {
-  mounted() {
-    observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.pushEvent("load_more", {});
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 1.0,
-      },
-    );
-
-    const anchorId = this.el.dataset.anchorId;
-    const anchor = document.getElementById(anchorId);
-
-    if (anchor) {
-      observer.observe(anchor);
-    } else {
-      console.error(`Anchor element not found: ${anchorId}`);
-    }
-  },
-};
+window.addEventListener('mousemove', e => {
+  const dotGrid = document.querySelector('.bg-dot-grid');
+  if (dotGrid) {
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    dotGrid.style.backgroundPosition = `-${x * 30}px -${y * 30}px`;
+  }
+});

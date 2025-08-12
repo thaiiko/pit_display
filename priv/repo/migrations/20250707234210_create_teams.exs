@@ -8,6 +8,7 @@ defmodule PitDisplay.Repo.Migrations.CreateTeams do
       add :city, :string
       add :state_prov, :string
       add :country, :string
+      add :robot_name, :string
     end
   end
 end

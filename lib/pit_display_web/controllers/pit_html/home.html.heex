@@ -1,4 +1,11 @@
 <div>
-  <h1>Pit Page</h1>
   <p>Welcome to the Pit page!</p>
+  <form action="/pit" method="get">
+    <label for="team">Team:</label>
+    <input type="text" id="team" name="team" class="bg-none" style="background-color: black;" required />
+    <br />
+    <label for="eventcode">Event Code:</label>
+    <input type="text" id="eventcode" name="eventcode" style="background-color: black;" required />
+    <button type="submit">Go to Pit Scouting</button>
+  </form>
 </div>

@@ -1,6 +1,6 @@
-<div class="px-1 py-4 w-full overflow-y-scroll" phx-viewport-bottom="load_more">
-  <h1 class="text-3xl font-bold mb-6 text-center">FTC Teams</h1>
-
+<div class="px-1 py-4 w-full">
+  <h1 class="text-3xl font-bold mb-6 text-center dark:text-white">Teams</h1>
+  <.greet name="miles"/> 
   <%= if @loading do %>
     <div class="flex justify-center items-center py-8">
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -9,26 +9,26 @@
   <% end %>
 
   <div
-    class="overflow-y-auto px-4 sm:overflow-visible sm:px-0"
+    class="overflow-y-auto px-5 sm:overflow-visible sm:px-0 dark:bg-black bg-gray-50 mr-5 ml-5 rounded-[1rem]"
     id="main-content"
-    phx-hook="InfiniteScroll"
-    data-anchor-id="load-more-anchor"
   >
-    <.table id="teams" rows={@streams.teams}>
-      <:col :let={{_id, team}} label="ID">{team.team_number}</:col>
+    <.table id="teams" rows={@streams.teams} class="mr-5 ml-5">
+      <:col :let={{_id, team}} label="Number">{team.team_number}</:col>
       <:col :let={{_id, team}} label="Name">{team.team_name}</:col>
-      <:col :let={{_id, team}} label="Actions">
-        <a href={~p"/teams/#{team.team_number}"}>More Info</a>
+      <:col :let={{_id, team}} label="Location">
+        {"#{team.city}, #{team.state_prov}, #{team.country}"}
       </:col>
+      <:action :let={{_id, team}} label="Links">
+        <a href={~p"/stats/teams/#{team.team_number}"}>Team Info</a>
+      </:action>
     </.table>
   </div>
 
   <div class="flex justify-center items-center mt-4">
     <button
-      id="load-more-anchor"
       phx-click="load_more"
       phx-disable-with="Loading..."
-      class="font-medium bg-white border border-gray-300 rounded-xl hover:bg-gray-50 px-3 py-2 text-sm"
+      class="font-medium dark:bg-white bg-black border border-gray-300 rounded-xl hover:bg-white px-3 py-2 text-sm black:text-white text-black dark:hover:text-white hover:text-black"
     >
       Load More
     </button>

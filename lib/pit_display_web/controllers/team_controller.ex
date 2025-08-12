@@ -7,6 +7,7 @@ defmodule PitDisplayWeb.TeamController do
     team_result = Ftc.fetch_team(id)
     events_result = Ftc.fetch_events(id)
     IO.inspect(events_result)
+    IO.inspect(conn)
 
     case {team_result, events_result} do
       {{:ok, team}, {:ok, events}} ->
@@ -18,6 +19,8 @@ defmodule PitDisplayWeb.TeamController do
               "https://#{team.website}"
             end
           end
+
+        IO.inspect(team.state_prov)
 
         conn
         |> assign(:team, team)
@@ -35,8 +38,8 @@ defmodule PitDisplayWeb.TeamController do
 
       {{:error, reason}, _} ->
         conn
-        |> put_flash(:error, "Could not fetch team #{id}: #{inspect(reason)}")
-        |> redirect(to: ~p"/teams")
+        |> put_flash(:error, "Could not fetch team #{id}, HTTP Error Code: #{inspect(reason)}")
+        |> redirect(to: ~p"/stats/teams")
     end
   end
 end

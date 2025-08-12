@@ -1,6 +1,9 @@
-<h1>Hello World</h1>
+<h1>Pit Display</h1>
 
-<%= for alliance <- @alliances do %>
-  {alliance.alliance}
+<%= for pair <- Enum.chunk_every(@alliances, 2) do %>
+  <span>Match <%= hd(pair).match_number %>: </span>
+  <%= for alliance <- pair do %>
+    <%= alliance.alliance %>: <%= alliance.total_points %>
+  <% end %>
+  <br/>
 <% end %>
-end

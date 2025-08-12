@@ -7,18 +7,28 @@ const path = require("path")
 
 module.exports = {
   content: [
+"../deps/salad_ui/lib/**/*.ex",
+"../deps/salad_ui/lib/**/*.ex",
+"../deps/salad_ui/lib/**/*.ex",
     "./js/**/*.js",
     "../lib/pit_display_web.ex",
     "../lib/pit_display_web/**/*.*ex"
   ],
   theme: {
     extend: {
+      colors: require("./tailwind.colors.json"),
+      width: {
+        '0': '0',
+      },
       colors: {
         brand: "#FD4F00",
+        midnight: "#161616",
       }
     },
   },
   plugins: [
+    require("@tailwindcss/typography"),
+    require("./vendor/tailwindcss-animate"),
     require("@tailwindcss/forms"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:

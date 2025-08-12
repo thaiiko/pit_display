@@ -22,7 +22,7 @@ defmodule PitDisplayWeb.Endpoint do
   plug Plug.Static,
     at: "/",
     from: :pit_display,
-    gzip: false,
+    gzip: true,
     only: PitDisplayWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the

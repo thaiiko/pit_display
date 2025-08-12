@@ -8,6 +8,7 @@ defmodule PitDisplay.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      TwMerge.Cache,
       PitDisplayWeb.Telemetry,
       PitDisplay.Repo,
       {Ecto.Migrator,

@@ -5,8 +5,8 @@ defmodule PitDisplay.Ftc do
   Fetches all teams and processes their data for display.
   """
   def fetch_all_teams do
-    case Client.get_all_teams() do
-      {:ok, %{"teams" => teams}} when is_list(teams) ->
+    case Client.get_all_teams_recursively() do
+      {:ok, teams} when is_list(teams) ->
         # Process teams data
         formatted_teams =
           Enum.map(teams, fn team ->
@@ -63,16 +63,22 @@ defmodule PitDisplay.Ftc do
   def fetch_team(team_number) do
     case Client.get_team_by_pin(team_number) do
       {:ok, %{"teams" => [team]}} ->
+        IO.inspect(team)
+
         formatted_team = %{
           team_number: team["teamNumber"],
-          team_name: team["nameShort"] || team["nameFull"] || "Unknown",
+          team_name: team["nameShort"],
           school: team["schoolName"],
           robot_name: team["robotName"],
           city: team["city"],
           state_prov: team["stateProv"],
           country: team["country"],
           rookie_year: team["rookieYear"],
-          website: team["website"]
+          website: team["website"],
+          home_cmp: team["homeCMP"],
+          home_region: team["homeRegion"],
+          display_location: team["displayLocation"],
+          sponsers: Enum.drop(String.split(team["nameFull"], ["&", "/"]), -1)
         }
 
         {:ok, formatted_team}
